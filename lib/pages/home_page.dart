@@ -8,7 +8,9 @@ class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+
+  {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Pet Adopt"),
@@ -48,7 +50,7 @@ class HomePage extends StatelessWidget {
 
                   );
                 }  else {
-                  final pets = datasnapshot.data!;
+                
                   return GridView.builder(
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -57,8 +59,8 @@ class HomePage extends StatelessWidget {
                           (MediaQuery.of(context).size.height),
                     ),
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: pets.length,
-                    itemBuilder: (context, index) => PetCard(pet: pets[index]),
+                    itemCount: Provider.of<PetsProvider>(context).pets.length,
+                    itemBuilder: (context, index) => PetCard(pet: Provider.of<PetsProvider>(context).pets[index]),
                   );
                 }
               },
