@@ -11,9 +11,34 @@ class PetsProvider extends ChangeNotifier {
         gender: "male")
   ];
 
- Future getPets() async {
+  Future getPets() async {
     pets = await DioClient().getPets();
     notifyListeners();
     return pets;
   }
+
+  void createPet(Pet pet) async {
+    Pet newPet = await DioClient().createPet(pet: pet);
+    pets.insert(0, newPet);
+    notifyListeners();
+  }
+
+  void updatePet(Pet pet) async {
+    Pet newPet = await DioClient().updatePet(pet: pet);
+    int index = pets.indexWhere((pet) => pet.id == newPet.id);
+    pets[index] = newPet;
+    notifyListeners();
+  }
+  //  void adoptPet(int petId) async {
+  //   Pet newPet = await DioClient().adoptPet(petId: petId);
+  //   int index = pets.indexWhere((pet) => pet.id == newPet.id);
+  //   pets[index] = newPet;
+  //   notifyListeners();
+  // }
+
+  //  void deletePet(int petId) async {
+  //   await DioClient().deletePet(petId: petId);
+  //   pets.removeWhere((pet) => pet.id == petId);
+  //   notifyListeners();
+  // }
 }

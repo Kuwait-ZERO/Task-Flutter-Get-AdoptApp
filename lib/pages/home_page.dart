@@ -1,16 +1,14 @@
-import 'package:adopt_app/models/pet.dart';
 import 'package:adopt_app/providers/pets_provider.dart';
 import 'package:adopt_app/widgets/pet_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) 
-
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Pet Adopt"),
@@ -24,6 +22,7 @@ class HomePage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // Add logic to add a new pet
+                  GoRouter.of(context).push('/add');
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(12.0),
@@ -38,7 +37,8 @@ class HomePage extends StatelessWidget {
               child: const Text("GET"),
             ),
             FutureBuilder(
-              future: Provider.of<PetsProvider>(context, listen: false).getPets(),
+              future:
+                  Provider.of<PetsProvider>(context, listen: false).getPets(),
               builder: (context, datasnapshot) {
                 if (datasnapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -47,10 +47,8 @@ class HomePage extends StatelessWidget {
                 } else if (datasnapshot.hasError) {
                   return Center(
                     child: Text(datasnapshot.error.toString()),
-
                   );
-                }  else {
-                
+                } else {
                   return GridView.builder(
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -60,7 +58,8 @@ class HomePage extends StatelessWidget {
                     ),
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: Provider.of<PetsProvider>(context).pets.length,
-                    itemBuilder: (context, index) => PetCard(pet: Provider.of<PetsProvider>(context).pets[index]),
+                    itemBuilder: (context, index) => PetCard(
+                        pet: Provider.of<PetsProvider>(context).pets[index]),
                   );
                 }
               },
